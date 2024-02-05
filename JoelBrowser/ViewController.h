@@ -9,6 +9,9 @@
 
 @interface ViewController : UIViewController
 
+@property (weak) IBOutlet UITextField* addressBar;
+
+-(IBAction)goToAddressBarURL:(id)sender;
 
 @end
 
