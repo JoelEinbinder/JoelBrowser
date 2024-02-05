@@ -21,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSDictionary<NSString *,NSString *> * _attributes;
     CGSize _size;
     CGPoint _origin;
+    float _lastTextX;
+    bool _hasTrailingWhiteSpace;
     NSArray<TextSpan*>* _textLayout;
+    NSDictionary<NSString*, NSString*>* _style;
 }
 -(instancetype)initWithTagName:(NSString*) tagName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict;
 -(void)append:(JBDOMNode*) node;
