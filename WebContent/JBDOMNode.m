@@ -217,6 +217,10 @@
             [list drawImage:_image inRect:CGRectMake(_origin.x, _origin.y, _size.width, _size.height)];
         return;
     }
+    if ([@"button" isEqualToString:_tagName]) {
+        [list drawButton:[[self textContent] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] inRect:CGRectMake(_origin.x, _origin.y, _size.width, _size.height)];
+        return;
+    }
     for (TextSpan* textSpan in _textLayout) {
         [list drawText: textSpan.text atPoint:textSpan.location withAttributes:[self textAttributes]];
     }
@@ -272,6 +276,13 @@
             _size.width = [_attributes[@"width"] floatValue];
         if (_attributes[@"height"])
             _size.height = [_attributes[@"height"] floatValue];
+        _lastTextX = _origin.x + _size.width;
+        _hasTrailingWhiteSpace = NO;
+        return;
+    }
+    if ([@"button" isEqualToString:_tagName]) {
+        _size.width = 120.0;
+        _size.height = 40.0;
         _lastTextX = _origin.x + _size.width;
         _hasTrailingWhiteSpace = NO;
         return;

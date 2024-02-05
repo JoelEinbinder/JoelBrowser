@@ -14,6 +14,7 @@
     if (!self)
         return self;
     _list = list;
+    [_list addChildViews:self];
     return self;
 }
 - (void)drawRect:(CGRect)rect {

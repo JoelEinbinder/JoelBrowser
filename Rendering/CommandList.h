@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)drawText:(NSString*)text atPoint:(CGPoint) point withAttributes: (NSDictionary<NSAttributedStringKey, id>*) attributes;
 -(void)drawButton:(NSString*)text inRect:(CGRect) rect;
 -(void)drawImage:(UIImage*)image inRect:(CGRect) rect;
+-(void)addChildViews: (UIView*) toView;
 @end
 
 NS_ASSUME_NONNULL_END
