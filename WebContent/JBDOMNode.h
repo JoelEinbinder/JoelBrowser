@@ -19,12 +19,18 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<JBDOMNode*>* _childNodes;
     NSString* _tagName;
     NSDictionary<NSString *,NSString *> * _attributes;
+    CGSize _size;
+    CGPoint _origin;
+    NSArray<TextSpan*>* _textLayout;
 }
 -(instancetype)initWithTagName:(NSString*) tagName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict;
 -(void)append:(JBDOMNode*) node;
 -(NSDictionary<NSString *,NSString *> *)attributes;
 -(NSString*)tagName;
 -(NSArray<JBDOMNode*>*) childNodes;
+-(void)layout: (CGRect) container;
+-(void)draw: (CommandList*) list;
+-(CGSize)size;
 @end
 
 @interface TextNode : JBDOMNode {

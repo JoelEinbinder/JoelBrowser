@@ -24,8 +24,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _scrollView = [[BEScrollView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:_scrollView];
+    [self.view sendSubviewToBack:_scrollView];
+    [_scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:@[
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTopMargin multiplier:1.0 constant:49.0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+        [NSLayoutConstraint constraintWithItem:_scrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]
+    ]];
     _network = [self launchChildProcess:@"com.joeleinbinder.JoelBrowser.Networking" clientProtocol:@protocol(NetworkingProtocol) hostProtocol:@protocol(NetworkingProtocolHost)];
     _webContent = [self launchChildProcess:@"com.joeleinbinder.JoelBrowser.WebContent" clientProtocol:@protocol(WebContentProtocol) hostProtocol:@protocol(WebContentProtocolHost)];
+    _rendering = [[RenderingProtocolImpl alloc] init];
     [self loadURL:@"https://joel.tools/"];
 }
 
@@ -61,12 +72,23 @@
     NSLog(@"Web content requests navigation: %@", url);
 }
 
-- (void)requestRepaint:(CommandList *)list { 
-    NSLog(@"Web content requests repaint: %@", list);
+- (void)requestRepaint:(CommandList *)list {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (UIView* subview in [self->_scrollView subviews])
+            [subview removeFromSuperview];
+        UIView* webView = [self->_rendering renderCommandList:list];
+        [self->_scrollView addSubview:webView];
+        [self->_scrollView setContentSize:webView.bounds.size];
+    });
 }
 
 - (void)showMessageBox:(NSString *)text { 
     NSLog(@"Web content shows message box: %@", text);
+}
+
+- (void)viewDidLayoutSubviews {
+    [_webContent resize:_scrollView.frame.size];
+    [super viewDidLayoutSubviews];
 }
 
 @end

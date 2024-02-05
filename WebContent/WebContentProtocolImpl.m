@@ -1,5 +1,6 @@
 #import "WebContentProtocol.h"
 #import "DOMParser.h"
+#import "../Rendering/CommandList.h"
 
 #import <objc/runtime.h>
 #import <Foundation/Foundation.h>
@@ -11,20 +12,35 @@
 }
 @end
 
-@implementation WebContentProtocolImpl
+@implementation WebContentProtocolImpl {
+    CGSize _size;
+}
 
 -(instancetype)init {
     documentElement = nil;
+    _size = CGSizeMake(100.0, 100.0);
     return [super init];
 }
 
-- (nonnull NSObject<WebContentProtocolHost> *)host { 
+- (void)render {
+    if (!documentElement)
+        return;
+    // Fake graphics context just for measuring stuff
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1.0, 1.0), NO, [[UIScreen mainScreen] scale]);
+    [documentElement layout: CGRectMake(0,0,_size.width,_size.height)];
+    UIGraphicsEndImageContext();
+    CommandList* list = [[CommandList alloc] initWithSize: [documentElement size]];
+    [documentElement draw:list];
+    [[[NSXPCConnection currentConnection] remoteObjectProxy] requestRepaint:list];
+}
+
+- (nonnull NSObject<WebContentProtocolHost> *)host {
     return [[NSXPCConnection currentConnection] remoteObjectProxy];
 }
 
 - (void)setSource:(NSString *)source {
     documentElement = (Element*)[[[DOMParser alloc] init] parse:source];
-    NSLog(@"%@", [documentElement textContent]);
+    [self render];
 }
 
 -(void)tap:(CGPoint)point {
@@ -32,7 +48,8 @@
 }
 
 - (void)resize:(CGSize)size {
-    NSLog(@"resize");
+    _size = size;
+    [self render];
 }
 
 @end

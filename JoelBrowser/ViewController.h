@@ -8,10 +8,14 @@
 #import <UIKit/UIKit.h>
 #import "../Networking/NetworkingProtocol.h"
 #import "../WebContent/WebContentProtocol.h"
+#import "../Rendering/RenderingProtocol.h"
+#import <BrowserEngineKit/BEScrollView.h>
 
-@interface ViewController : UIViewController <NetworkingProtocolHost, WebContentProtocolHost> {
+@interface ViewController : UIViewController <NetworkingProtocolHost, WebContentProtocolHost, RenderingProtocolHost> {
     NSObject<NetworkingProtocol>* _network;
     NSObject<WebContentProtocol>* _webContent;
+    NSObject<RenderingProtocol>* _rendering;
+    BEScrollView* _scrollView;
 }
 
 @property (weak) IBOutlet UITextField* addressBar;

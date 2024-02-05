@@ -20,6 +20,9 @@
 		F0EF69892B70BA1900F25533 /* WebContentProtocolImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69812B70BA1900F25533 /* WebContentProtocolImpl.m */; };
 		F0EF698B2B70BA1900F25533 /* JBDOMNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69862B70BA1900F25533 /* JBDOMNode.m */; };
 		F0EF698D2B70BA1900F25533 /* DOMParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69882B70BA1900F25533 /* DOMParser.m */; };
+		F0EF69952B70BF1000F25533 /* CommandList.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69912B70BF1000F25533 /* CommandList.m */; };
+		F0EF69962B70BF1000F25533 /* CommandList.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69912B70BF1000F25533 /* CommandList.m */; };
+		F0EF69972B70BF1000F25533 /* RendererProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69932B70BF1000F25533 /* RendererProtocol.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,10 @@
 		F0EF69862B70BA1900F25533 /* JBDOMNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDOMNode.m; sourceTree = "<group>"; };
 		F0EF69882B70BA1900F25533 /* DOMParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOMParser.m; sourceTree = "<group>"; };
 		F0EF698E2B70BBF000F25533 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0EF69902B70BF1000F25533 /* CommandList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandList.h; sourceTree = "<group>"; };
+		F0EF69912B70BF1000F25533 /* CommandList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandList.m; sourceTree = "<group>"; };
+		F0EF69922B70BF1000F25533 /* RenderingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingProtocol.h; sourceTree = "<group>"; };
+		F0EF69932B70BF1000F25533 /* RendererProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RendererProtocol.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +116,7 @@
 		F07D8EC82B70AF4B00313BD3 = {
 			isa = PBXGroup;
 			children = (
+				F0EF69942B70BF1000F25533 /* Rendering */,
 				F07D8ED32B70AF4B00313BD3 /* JoelBrowser */,
 				F07D8EFB2B70B3D200313BD3 /* Networking */,
 				F0EF69712B70B9F000F25533 /* WebContent */,
@@ -166,6 +174,17 @@
 				F0EF69812B70BA1900F25533 /* WebContentProtocolImpl.m */,
 			);
 			path = WebContent;
+			sourceTree = "<group>";
+		};
+		F0EF69942B70BF1000F25533 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				F0EF69902B70BF1000F25533 /* CommandList.h */,
+				F0EF69912B70BF1000F25533 /* CommandList.m */,
+				F0EF69922B70BF1000F25533 /* RenderingProtocol.h */,
+				F0EF69932B70BF1000F25533 /* RendererProtocol.m */,
+			);
+			path = Rendering;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,8 +316,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0EF69972B70BF1000F25533 /* RendererProtocol.m in Sources */,
 				F07D8EDC2B70AF4B00313BD3 /* ViewController.m in Sources */,
 				F07D8ED62B70AF4B00313BD3 /* AppDelegate.m in Sources */,
+				F0EF69952B70BF1000F25533 /* CommandList.m in Sources */,
 				F07D8EE72B70AF4C00313BD3 /* main.m in Sources */,
 				F07D8ED92B70AF4B00313BD3 /* SceneDelegate.m in Sources */,
 			);
@@ -319,6 +340,7 @@
 				F0EF698B2B70BA1900F25533 /* JBDOMNode.m in Sources */,
 				F0EF69892B70BA1900F25533 /* WebContentProtocolImpl.m in Sources */,
 				F0EF698D2B70BA1900F25533 /* DOMParser.m in Sources */,
+				F0EF69962B70BF1000F25533 /* CommandList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
