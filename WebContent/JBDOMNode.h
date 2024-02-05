@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString* _tagName;
     NSDictionary<NSString *,NSString *> * _attributes;
     UIImage* _image;
+    void (^_tapListener)(NSObject<WebContentProtocolHost>* sender);
     CGSize _size;
     CGPoint _origin;
     float _lastTextX;

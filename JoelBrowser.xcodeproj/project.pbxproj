@@ -23,6 +23,7 @@
 		F0EF69952B70BF1000F25533 /* CommandList.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69912B70BF1000F25533 /* CommandList.m */; };
 		F0EF69962B70BF1000F25533 /* CommandList.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69912B70BF1000F25533 /* CommandList.m */; };
 		F0EF69972B70BF1000F25533 /* RendererProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF69932B70BF1000F25533 /* RendererProtocol.m */; };
+		F0EF699B2B70E07F00F25533 /* VBScript.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EF699A2B70E07F00F25533 /* VBScript.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		F0EF69912B70BF1000F25533 /* CommandList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandList.m; sourceTree = "<group>"; };
 		F0EF69922B70BF1000F25533 /* RenderingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingProtocol.h; sourceTree = "<group>"; };
 		F0EF69932B70BF1000F25533 /* RendererProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RendererProtocol.m; sourceTree = "<group>"; };
+		F0EF69992B70E07F00F25533 /* VBScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBScript.h; sourceTree = "<group>"; };
+		F0EF699A2B70E07F00F25533 /* VBScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBScript.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +174,8 @@
 				F0EF69842B70BA1900F25533 /* JBDOMNode.h */,
 				F0EF69862B70BA1900F25533 /* JBDOMNode.m */,
 				F0EF69832B70BA1900F25533 /* WebContentProtocol.h */,
+				F0EF69992B70E07F00F25533 /* VBScript.h */,
+				F0EF699A2B70E07F00F25533 /* VBScript.m */,
 				F0EF69812B70BA1900F25533 /* WebContentProtocolImpl.m */,
 			);
 			path = WebContent;
@@ -338,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0EF698B2B70BA1900F25533 /* JBDOMNode.m in Sources */,
+				F0EF699B2B70E07F00F25533 /* VBScript.m in Sources */,
 				F0EF69892B70BA1900F25533 /* WebContentProtocolImpl.m in Sources */,
 				F0EF698D2B70BA1900F25533 /* DOMParser.m in Sources */,
 				F0EF69962B70BF1000F25533 /* CommandList.m in Sources */,

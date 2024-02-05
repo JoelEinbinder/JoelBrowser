@@ -1,6 +1,7 @@
 #import "JBDOMNode.h"
 #import <UIKit/UIKit.h>
 #import "../Rendering/CommandList.h"
+#import "VBScript.h"
 
 @interface TextSpan : NSObject {
     NSString* _text;
@@ -436,6 +437,10 @@
     return self;
 }
 -(void)tap: (NSObject<WebContentProtocolHost>*) sender {
+    if (_tapListener) {
+        _tapListener(sender);
+        return;
+    }
     if ([@"a" isEqualToString:_tagName] && _attributes[@"href"].length) {
         [sender requestNavigation:_attributes[@"href"]];
         return;
@@ -443,8 +448,35 @@
     [_parentElement tap: sender];
 }
 
+- (void)setTapListener:(void (^)(NSObject<WebContentProtocolHost> * _Nonnull sender))listener {
+    _tapListener = listener;
+}
+
+-(Element*)findElementByName:(NSString*) name {
+    if ([_attributes[@"name"] isEqualToString:name])
+        return self;
+    for (Element* child in [self children]) {
+        Element* found = [child findElementByName:name];
+        if (found)
+            return found;
+    }
+    return nil;
+}
+
 -(void)attachedToPage:(NSObject<Page>*)page {
-    if ([_tagName isEqualToString:@"img"]) {
+    if ([_tagName isEqualToString:@"script"]) {
+        VBScript* vbscript = [[VBScript alloc] init];
+        if ([[_attributes[@"language"] uppercaseString] isEqualToString:@"VBSCRIPT"]) {
+            if (_attributes[@"for"]) {
+                Element* forElement = [page.root findElementByName:_attributes[@"for"]];
+                if (forElement && [_attributes[@"event"] isEqualToString:@"onClick"]) {
+                    [forElement setTapListener:^(NSObject<WebContentProtocolHost> * _Nonnull sender) {
+                        [vbscript runScript:self.textContent host:[[NSXPCConnection currentConnection] remoteObjectProxy]];
+                    }];
+                }
+            }
+        }
+    } else if ([_tagName isEqualToString:@"img"]) {
         [page.host requestData:_attributes[@"src"] completion:^(NSData *data) {
             UIImage* image = [UIImage imageWithData:data];
             self->_image = image;

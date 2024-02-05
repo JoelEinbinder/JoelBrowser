@@ -1,6 +1,7 @@
 #import "WebContentProtocol.h"
 #import "DOMParser.h"
 #import "../Rendering/CommandList.h"
+#import "VBScript.h"
 
 #import <objc/runtime.h>
 #import <Foundation/Foundation.h>

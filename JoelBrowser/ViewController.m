@@ -101,7 +101,18 @@
 }
 
 - (void)showMessageBox:(NSString *)text { 
-    NSLog(@"Web content shows message box: %@", text);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:text
+                                                                       message:@""
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                               }];
+        [alert addAction:defaultAction];
+        UIViewController *rootViewController = self.view.window.rootViewController;
+        [rootViewController presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 - (void)viewDidLayoutSubviews {
