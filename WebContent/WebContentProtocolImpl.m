@@ -44,7 +44,7 @@
 }
 
 -(void)tap:(CGPoint)point {
-    NSLog(@"tap");
+    [[documentElement hitTest: point] tap: [self host]];
 }
 
 - (void)resize:(CGSize)size {

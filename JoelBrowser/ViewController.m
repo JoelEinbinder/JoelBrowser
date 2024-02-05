@@ -68,8 +68,17 @@
     NSLog(@"Web content requests data: %@", url);
 }
 
-- (void)requestNavigation:(NSString *)url { 
-    NSLog(@"Web content requests navigation: %@", url);
+- (void)requestNavigation:(NSString *)url {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSURL* resolved = [NSURL URLWithString:url relativeToURL:[NSURL URLWithString: self->_addressBar.text]];
+        [self loadURL:[resolved absoluteString]];
+    });
+}
+
+-(void)webContentTapped: (UITapGestureRecognizer*) recognizer {
+    [_addressBar resignFirstResponder];
+    CGPoint location = [recognizer locationOfTouch:0 inView:recognizer.view];
+    [_webContent tap:location];
 }
 
 - (void)requestRepaint:(CommandList *)list {
@@ -77,6 +86,9 @@
         for (UIView* subview in [self->_scrollView subviews])
             [subview removeFromSuperview];
         UIView* webView = [self->_rendering renderCommandList:list];
+        UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(webContentTapped:)];
+        
+        [webView addGestureRecognizer:recognizer];
         [self->_scrollView addSubview:webView];
         [self->_scrollView setContentSize:webView.bounds.size];
     });

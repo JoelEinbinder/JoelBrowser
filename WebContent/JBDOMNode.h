@@ -30,7 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSArray<JBDOMNode*>*) childNodes;
 -(void)layout: (CGRect) container;
 -(void)draw: (CommandList*) list;
+-(nullable Element*)hitTest: (CGPoint) point;
 -(CGSize)size;
+-(void)tap: (NSObject<WebContentProtocolHost>*) sender;
 @end
 
 @interface TextNode : JBDOMNode {

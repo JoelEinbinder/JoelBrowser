@@ -273,7 +273,23 @@
         return [evaluatedObject isKindOfClass:[Element class]];
     }]];
 }
-
+- (nullable Element *)hitTest:(CGPoint)point {
+    if (!CGRectContainsPoint([self rect], point))
+        return nil;
+    for (Element* child in [self children]) {
+        Element* result = [child hitTest:point];
+        if (result)
+            return result;
+    }
+    return self;
+}
+-(void)tap: (NSObject<WebContentProtocolHost>*) sender {
+    if ([@"a" isEqualToString:_tagName] && _attributes[@"href"].length) {
+        [sender requestNavigation:_attributes[@"href"]];
+        return;
+    }
+    [_parentElement tap: sender];
+}
 @end
 
 @implementation TextNode
