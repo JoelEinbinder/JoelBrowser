@@ -7,9 +7,11 @@
 
 #import <UIKit/UIKit.h>
 #import "../Networking/NetworkingProtocol.h"
+#import "../WebContent/WebContentProtocol.h"
 
-@interface ViewController : UIViewController <NetworkingProtocolHost> {
+@interface ViewController : UIViewController <NetworkingProtocolHost, WebContentProtocolHost> {
     NSObject<NetworkingProtocol>* _network;
+    NSObject<WebContentProtocol>* _webContent;
 }
 
 @property (weak) IBOutlet UITextField* addressBar;

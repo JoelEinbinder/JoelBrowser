@@ -25,13 +25,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _network = [self launchChildProcess:@"com.joeleinbinder.JoelBrowser.Networking" clientProtocol:@protocol(NetworkingProtocol) hostProtocol:@protocol(NetworkingProtocolHost)];
+    _webContent = [self launchChildProcess:@"com.joeleinbinder.JoelBrowser.WebContent" clientProtocol:@protocol(WebContentProtocol) hostProtocol:@protocol(WebContentProtocolHost)];
     [self loadURL:@"https://joel.tools/"];
 }
 
 -(void)loadURL:(NSString*)url {
     [_addressBar setText:url];
     [_network fetchURL:url complete:^(NSData * content) {
-        NSLog(@"%@", [[NSString alloc] initWithData:content encoding:NSUTF8StringEncoding]);
+        [self->_webContent setSource:[[NSString alloc] initWithData:content encoding:NSUTF8StringEncoding]];
     }];
 }
 
@@ -50,6 +51,22 @@
         [connection activate];
     }];
     return [connection remoteObjectProxy];
+}
+
+- (void)requestData:(NSString *)url completion:(void (^)(NSData *))completion { 
+    NSLog(@"Web content requests data: %@", url);
+}
+
+- (void)requestNavigation:(NSString *)url { 
+    NSLog(@"Web content requests navigation: %@", url);
+}
+
+- (void)requestRepaint:(CommandList *)list { 
+    NSLog(@"Web content requests repaint: %@", list);
+}
+
+- (void)showMessageBox:(NSString *)text { 
+    NSLog(@"Web content shows message box: %@", text);
 }
 
 @end
