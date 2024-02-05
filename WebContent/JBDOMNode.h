@@ -5,6 +5,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class Element;
 
+@protocol Page <NSObject>
+-(NSObject<WebContentProtocolHost>*) host;
+-(void)render;
+-(Element*)root;
+@end
+
 @interface JBDOMNode : NSObject {
     Element* _parentElement;
 }
@@ -19,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<JBDOMNode*>* _childNodes;
     NSString* _tagName;
     NSDictionary<NSString *,NSString *> * _attributes;
+    UIImage* _image;
     CGSize _size;
     CGPoint _origin;
     float _lastTextX;
@@ -36,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(nullable Element*)hitTest: (CGPoint) point;
 -(CGSize)size;
 -(void)tap: (NSObject<WebContentProtocolHost>*) sender;
+-(void)attachedToPage:(NSObject<Page>*)page;
 @end
 
 @interface TextNode : JBDOMNode {

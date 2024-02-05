@@ -212,6 +212,11 @@
         point.x -= size.width;
         [list drawText: text atPoint:point withAttributes:[self textAttributes]];
     }
+    if ([@"img" isEqualToString:_tagName]) {
+        if (_image)
+            [list drawImage:_image inRect:CGRectMake(_origin.x, _origin.y, _size.width, _size.height)];
+        return;
+    }
     for (TextSpan* textSpan in _textLayout) {
         [list drawText: textSpan.text atPoint:textSpan.location withAttributes:[self textAttributes]];
     }
@@ -254,6 +259,21 @@
         _size.height = 0.0;
         _lastTextX = _origin.x + _size.width;
         _hasTrailingWhiteSpace = YES;
+        return;
+    }
+    if ([@"img" isEqualToString:_tagName]) {
+        if (_image) {
+            _size = _image.size;
+        } else {
+            _size.width = 0.0;
+            _size.height = 0.0;
+        }
+        if (_attributes[@"width"])
+            _size.width = [_attributes[@"width"] floatValue];
+        if (_attributes[@"height"])
+            _size.height = [_attributes[@"height"] floatValue];
+        _lastTextX = _origin.x + _size.width;
+        _hasTrailingWhiteSpace = NO;
         return;
     }
     
@@ -410,6 +430,19 @@
         return;
     }
     [_parentElement tap: sender];
+}
+
+-(void)attachedToPage:(NSObject<Page>*)page {
+    if ([_tagName isEqualToString:@"img"]) {
+        [page.host requestData:_attributes[@"src"] completion:^(NSData *data) {
+            UIImage* image = [UIImage imageWithData:data];
+            self->_image = image;
+            [page render];
+        }];
+    }
+    
+    for (Element* child in self.children)
+        [child attachedToPage:page];
 }
 @end
 

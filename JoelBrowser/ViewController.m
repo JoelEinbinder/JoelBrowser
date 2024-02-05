@@ -64,8 +64,14 @@
     return [connection remoteObjectProxy];
 }
 
-- (void)requestData:(NSString *)url completion:(void (^)(NSData *))completion { 
-    NSLog(@"Web content requests data: %@", url);
+- (void)requestData:(NSString *)url completion:(void (^)(NSData *))completion {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSURL* resolved = [NSURL URLWithString:url relativeToURL:[NSURL URLWithString: self->_addressBar.text]];
+        
+        [self->_network fetchURL:[resolved absoluteString] complete:^(NSData * data) {
+            completion(data);
+        }];
+    });
 }
 
 - (void)requestNavigation:(NSString *)url {

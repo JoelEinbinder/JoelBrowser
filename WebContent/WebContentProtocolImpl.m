@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebContentProtocolImpl : NSObject <WebContentProtocol> {
+@interface WebContentProtocolImpl : NSObject <WebContentProtocol, Page> {
     Element* documentElement;
 }
 @end
@@ -38,8 +38,14 @@
     return [[NSXPCConnection currentConnection] remoteObjectProxy];
 }
 
+- (Element *)root { 
+    return documentElement;
+}
+
+
 - (void)setSource:(NSString *)source {
     documentElement = (Element*)[[[DOMParser alloc] init] parse:source];
+    [documentElement attachedToPage:self];
     [self render];
 }
 

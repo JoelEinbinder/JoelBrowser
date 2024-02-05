@@ -12,12 +12,21 @@
 }
 - (void)render {
     for (NSDictionary* command in _commands) {
-        NSString* text = command[@"text"];
-        NSNumber* x = command[@"point"][@"x"];
-        NSNumber* y = command[@"point"][@"y"];
-        CGPoint point = CGPointMake([x floatValue], [y floatValue]);
-        NSDictionary* attributes = command[@"attributes"];
-        [text drawAtPoint:point withAttributes:attributes];
+        if (command[@"image"]) {
+            NSNumber* x = command[@"rect"][@"x"];
+            NSNumber* y = command[@"rect"][@"y"];
+            NSNumber* width = command[@"rect"][@"width"];
+            NSNumber* height = command[@"rect"][@"height"];
+            UIImage* image = command[@"image"];
+            [image drawInRect:CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue])];
+        } else {
+            NSString* text = command[@"text"];
+            NSNumber* x = command[@"point"][@"x"];
+            NSNumber* y = command[@"point"][@"y"];
+            CGPoint point = CGPointMake([x floatValue], [y floatValue]);
+            NSDictionary* attributes = command[@"attributes"];
+            [text drawAtPoint:point withAttributes:attributes];
+        }
     }
 }
 
@@ -39,7 +48,10 @@
     NSLog(@"TODO drawButton");
 }
 - (void)drawImage:(UIImage *)image inRect:(CGRect)rect {
-    NSLog(@"TODO drawImage");
+    [_commands addObject:@{
+        @"image": image,
+        @"rect": @{ @"x": @(rect.origin.x), @"y": @(rect.origin.y), @"width": @(rect.size.width), @"height": @(rect.size.height) },
+    }];
 }
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
     [coder encodeObject:_commands forKey:@"commands"];
